@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package fr.louisbl.cordova.gpslocation;
+package com.coolprofs.cordova.gpslocation;
 
 /**
  * Defines app-wide constants and utilities

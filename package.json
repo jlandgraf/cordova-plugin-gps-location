@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/louisbl/cordova-plugin-gpslocation.git"
+    "url": "hhttps://github.com/jlandgraf/cordova-plugin-gps-location.git"
   },
   "keywords": [
     "cordova",
@@ -20,6 +20,6 @@
     "ecosystem:cordova",
     "cordova-android"
   ],
-  "author": "louisbl",
+  "author": "jlandgraf",
   "license": "Apache 2.0"
 }

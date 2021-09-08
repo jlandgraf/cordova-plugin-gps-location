@@ -16,7 +16,7 @@
        specific language governing permissions and limitations
        under the License.
  */
-package fr.louisbl.cordova.gpslocation;
+package com.coolprofs.cordova.gpslocation;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;

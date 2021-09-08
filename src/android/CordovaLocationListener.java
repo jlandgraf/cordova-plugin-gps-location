@@ -16,7 +16,7 @@
        specific language governing permissions and limitations
        under the License.
  */
-package fr.louisbl.cordova.gpslocation;
+package com.coolprofs.cordova.gpslocation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
