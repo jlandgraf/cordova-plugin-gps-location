@@ -20,9 +20,5 @@
 -->
 # Release Notes
 
-### 1.0.0 (Jul 26, 2015)
-* Changed plugin id to cordova-plugin-gpslocation
-* Publish to new cordova plugin registy
-
-### 0.1.0 (Oct 22, 2014)
+### 0.1.0 (Sep 08, 2021)
 * First version

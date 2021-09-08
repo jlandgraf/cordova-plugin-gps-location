@@ -23,52 +23,6 @@ This plugin provides information about the device's location, such as
 latitude and longitude. Source of location information is Global Positioning System (GPS). There is no guarantee that the API returns the
 device's actual location.
 
-This API is based on the
-[W3C Geolocation API Specification](http://dev.w3.org/geo/api/spec-source.html), and use the Android GPS provider.
-
-__WARNING__: Collection and use of geolocation data
-raises important privacy issues.  Your app's privacy policy should
-discuss how the app uses geolocation data, whether it is shared with
-any other parties, and the level of precision of the data (for
-example, coarse, fine, ZIP code level, etc.).  Geolocation data is
-generally considered sensitive because it can reveal user's
-whereabouts and, if stored, the history of their travels.
-Therefore, in addition to the app's privacy policy, you should
-strongly consider providing a just-in-time notice before the app
-accesses geolocation data (if the device operating system doesn't do
-so already).  That notice should provide the same information noted
-above, as well as obtaining the user's permission (e.g., by presenting
-choices for __OK__ and __No Thanks__).  For more information, please
-see the Privacy Guide.
-
-## Installation
-
-The plugin is published on [npm](https://www.npmjs.com/package/cordova-plugin-gpslocation):
-
-    cordova plugin add cordova-plugin-gpslocation
-
-If you wish to use the old Cordova registry, use the previous plugin id:
-
-    cordova plugin add fr.louisbl.cordova.gpslocation
-
-## Supported Platforms
-
-- Android
-
-
-## Methods
-
-- GPSLocation.getCurrentPosition
-- GPSLocation.watchPosition
-- GPSLocation.clearWatch
-
-## Objects (Read-Only)
-
-- Position
-- PositionError
-- Coordinates
-- Priorities
-
 ## GPSLocation.getCurrentPosition
 
 Returns the device's current position to the `geolocationSuccess`
