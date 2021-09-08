@@ -73,6 +73,7 @@ var GPSLocation = {
 	 * @param {PositionOptions} options     The options for getting the position data. (OPTIONAL)
 	 */
 	getCurrentPosition: function (successCallback, errorCallback, options) {
+		console.log('getCurrentPosition called');
 		argscheck.checkArgs('fFO', 'GPSLocation.getCurrentPosition', arguments);
 		options = parseParameters(options);
 
