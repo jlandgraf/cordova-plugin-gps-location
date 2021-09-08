@@ -1,5 +1,15 @@
-# Object file
-*.o
+#If ignorance is bliss, then somebody knock the smile off my face
 
-# Ada Library Information
-*.ali
+*.csproj.user
+*.suo
+*.cache
+Thumbs.db
+*.DS_Store
+
+*.bak
+*.cache
+*.log
+*.swp
+*.user
+
+node_modules
