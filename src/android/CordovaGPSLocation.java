@@ -216,4 +216,5 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		}
 		return mListener;
 	}
+
 }
