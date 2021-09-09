@@ -82,15 +82,17 @@ var GPSLocation = {
 		var timeoutTimer = {
 			timer: null
 		};
-
+		console.log('declaring the functions');
 		var win = function (p) {
 			clearTimeout(timeoutTimer.timer);
 			if (!(timeoutTimer.timer)) {
 				// Timeout already happened, or native fired error callback for
 				// this geo request.
 				// Don't continue with success callback.
+ 				console.log('timeout already happened');
 				return;
 			}
+			console.log('win:' + p);
 			var pos = new Position({
 				latitude: p.latitude,
 				longitude: p.longitude,
@@ -104,6 +106,7 @@ var GPSLocation = {
 			successCallback(pos);
 		};
 		var fail = function (e) {
+			console.log('failed');
 			clearTimeout(timeoutTimer.timer);
 			timeoutTimer.timer = null;
 			var err = new PositionError(e.code, e.message);
@@ -115,15 +118,18 @@ var GPSLocation = {
 		// Check our cached position, if its timestamp difference with current time is less than the maximumAge, then just
 		// fire the success callback with the cached position.
 		if (GPSLocation.lastPosition && options.maximumAge && (((new Date()).getTime() - GPSLocation.lastPosition.timestamp.getTime()) <= options.maximumAge)) {
+			console.log('returning last Position');
 			successCallback(GPSLocation.lastPosition);
 			// If the cached position check failed and the timeout was set to 0, error out with a TIMEOUT error object.
 		} else if (options.timeout === 0) {
+			console.log('error');
 			fail({
 				code: PositionError.TIMEOUT,
 				message: "timeout value in PositionOptions set to 0 and no cached Position object available, or cached Position object's age exceeds provided PositionOptions' maximumAge parameter."
 			});
 			// Otherwise we have to call into native to retrieve a position.
 		} else {
+			console.log('calling java');
 			if (options.timeout !== Infinity) {
 				// If the timeout value was not set to Infinity (default), then
 				// set up a timeout function that will fire the error callback
@@ -136,7 +142,9 @@ var GPSLocation = {
 				timeoutTimer.timer = true;
 			}
 			exec(win, fail, "GPSLocation", "getLocation", [options.maximumAge]);
+			
 		}
+		console.log('returning timeoutTimer');
 		return timeoutTimer;
 	},
 	/**
