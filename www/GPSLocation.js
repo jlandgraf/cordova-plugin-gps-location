@@ -148,10 +148,10 @@ var GPSLocation = {
 				var locres = exec(win, fail, "GPSLocation", "getLocation", [options.maximumAge]);
 				console.log('location called' + locres);
 	        };
-	        var permissionFail = function (error) {
-				console.log('permission Failed'+error);
-	            if (error) {
-	                error(new PositionError(PositionError.PERMISSION_DENIED, 'Illegal Access'));
+	        var permissionFail = function (e) {
+				console.log('permission Failed'+e);
+	            if (errorCallback) {
+	                errorCallback(new PositionError(PositionError.PERMISSION_DENIED, 'Illegal Access'));
 	            }
 	        };
 	 		var res = exec(permissionWin, permissionFail, 'Geolocation', 'getPermission', []);
