@@ -23,7 +23,6 @@ import org.apache.cordova.CordovaArgs;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
-import org.apache.cordova.LOG;
 import org.apache.cordova.PermissionHelper;
 import org.apache.cordova.PluginResult;
 
@@ -37,6 +36,7 @@ import android.os.Build;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
+import android.util.Log;
 
 /*
  * This class is the interface to the Geolocation.  It's bound to the geo object.
@@ -278,7 +278,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
         if(_context != null) {
             for (int r : grantResults) {
                 if (r == PackageManager.PERMISSION_DENIED) {
-                    LOG.d(TAG, "Permission Denied!");
+                    Log.d(TAG, "Permission Denied!");
                     result = new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION);
                     _context.sendPluginResult(result);
                     return;
