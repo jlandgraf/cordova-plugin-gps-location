@@ -145,17 +145,15 @@ var GPSLocation = {
 			var permissionWin = function () {
 				console.log('permission Success');
 	            //var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation'); // eslint-disable-line no-undef
-				var locres = exec(win, fail, "GPSLocation", "getLocation", [options.maximumAge]);
-				console.log('location called' + locres);
+				exec(win, fail, 'CordovaGPSLocation', 'getLocation', [options.maximumAge]);
 	        };
-	        var permissionFail = function (e) {
-				console.log('permission Failed'+e);
+	        var permissionFail = function () {
+				console.log('Permission Failed');
 	            if (errorCallback) {
 	                errorCallback(new PositionError(PositionError.PERMISSION_DENIED, 'Illegal Access'));
 	            }
 	        };
-	 		var res = exec(permissionWin, permissionFail, 'Geolocation', 'getPermission', []);
-			console.log('exec finished' + res);
+	 		exec(permissionWin, permissionFail, 'CordovaGPSLocation', 'getPermission', []);
 		}
 		console.log('returning timeoutTimer');
 		return timeoutTimer;
@@ -204,7 +202,7 @@ var GPSLocation = {
 			successCallback(pos);
 		};
 
-		exec(win, fail, "GPSLocation", "addWatch", [id]);
+		exec(win, fail, "CordovaGPSLocation", "addWatch", [id]);
 
 		return id;
 	},
