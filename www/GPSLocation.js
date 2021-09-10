@@ -169,8 +169,19 @@ var GPSLocation = {
 				// always truthy before we call into native
 				timeoutTimer.timer = true;
 			}
-			console.log('exec start');
-			exec(win, fail, "GPSLocation", "getLocation", [options.maximumAge]);
+			console.log('permission first, then actual calling');
+			var permissionWin = function () {
+				console.log('permission Success');
+	            //var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation'); // eslint-disable-line no-undef
+				exec(win, fail, "GPSLocation", "getLocation", [options.maximumAge]);
+	        };
+	        var permissionFail = function () {
+				console.log('permission Failed');
+	            if (error) {
+	                error(new PositionError(PositionError.PERMISSION_DENIED, 'Illegal Access'));
+	            }
+	        };
+	 		exec(win, fail, 'Geolocation', 'getPermission', []);
 			console.log('exec finished');
 		}
 		console.log('returning timeoutTimer');
