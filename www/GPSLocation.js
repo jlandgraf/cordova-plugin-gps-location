@@ -181,7 +181,7 @@ var GPSLocation = {
 	                error(new PositionError(PositionError.PERMISSION_DENIED, 'Illegal Access'));
 	            }
 	        };
-	 		exec(win, fail, 'Geolocation', 'getPermission', []);
+	 		exec(permissionWin, permissionFail, 'Geolocation', 'getPermission', []);
 			console.log('exec finished');
 		}
 		console.log('returning timeoutTimer');
