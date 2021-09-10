@@ -106,7 +106,7 @@ var GPSLocation = {
 			successCallback(pos);
 		};
 		var fail = function (e) {
-			console.log('failed' + e.code + e.message);
+			console.log('failed[' + e.code + e.message);
 			clearTimeout(timeoutTimer.timer);
 			timeoutTimer.timer = null;
 			var err = new PositionError(e.code, e.message);
@@ -141,8 +141,9 @@ var GPSLocation = {
 				// always truthy before we call into native
 				timeoutTimer.timer = true;
 			}
+			console.log('exec start');
 			exec(win, fail, "GPSLocation", "getLocation", [options.maximumAge]);
-
+			console.log('exec finished');
 		}
 		console.log('returning timeoutTimer');
 		return timeoutTimer;
