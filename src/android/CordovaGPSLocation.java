@@ -47,7 +47,8 @@ public class CordovaGPSLocation extends CordovaPlugin {
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
-		mLocationManager = (LocationManager) cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
+		//mLocationManager = (LocationManager) cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
+		mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 	}
 
 	/**
@@ -76,8 +77,8 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			return true;
 		}
 
-		if (isGPSdisabled()) {
-			fail(CordovaLocationListener.POSITION_UNAVAILABLE, "GPS is disabled on this device.", callbackContext, false);
+		if (isGPSdisabled() && isNetworkdisabled()) {
+				fail(CordovaLocationListener.POSITION_UNAVAILABLE, "GPS is disabled on this device (and network).", callbackContext, false);
 			return true;
 		}
 
@@ -178,6 +179,19 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		return !gps_enabled;
 	}
 
+	private boolean isNetworkdisabled() {
+		boolean network_enabled;
+		try {
+			network_enabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			network_enabled = false;
+		}
+
+		return !network_enabled;
+	}
+
+
 
 	private void getLastLocation(JSONArray args, CallbackContext callbackContext) {
 		int maximumAge;
@@ -187,7 +201,15 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			e.printStackTrace();
 			maximumAge = 0;
 		}
-		Location last = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+		Location last;
+		if(!isGPSdisabled()) {
+				last = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		} else if (!isNetworkdisabled()) {
+				last = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		} else {
+			last = null;
+		}
 		// Check if we can use lastKnownLocation to get a quick reading and use
 		// less battery
 		if (last != null && (System.currentTimeMillis() - last.getTime()) <= maximumAge) {
