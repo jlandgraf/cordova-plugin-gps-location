@@ -63,7 +63,7 @@ function createTimeout(errorCallback, timeout) {
 	return t;
 }
 
-
+/*
 function checkPermissions() {
 cordova.plugins.diagnostic.getPermissionsAuthorizationStatus(function(statuses){
     for (var permission in statuses){
@@ -89,6 +89,7 @@ cordova.plugins.diagnostic.getPermissionsAuthorizationStatus(function(statuses){
     cordova.plugins.diagnostic.permission.ACCESS_COARSE_LOCATION
 ]);
 }
+*/
 
 var GPSLocation = {
 	lastPosition: null, // reference to last known (cached) position returned
@@ -101,7 +102,6 @@ var GPSLocation = {
 	 */
 	getCurrentPosition: function (successCallback, errorCallback, options) {
 		console.log('getCurrentPosition called');
-		checkPermissions();
 		argscheck.checkArgs('fFO', 'GPSLocation.getCurrentPosition', arguments);
 		options = parseParameters(options);
 
