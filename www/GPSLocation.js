@@ -109,7 +109,7 @@ var GPSLocation = {
 			console.log(e);
 			clearTimeout(timeoutTimer.timer);
 			timeoutTimer.timer = null;
-			var err = new PositionError(e.code, e.message);
+			var err = new PositionError(!!e.code ? e.code : -999, !!e.message ? e.message : 'unknown error');
 			if (errorCallback) {
 				errorCallback(err);
 			}
