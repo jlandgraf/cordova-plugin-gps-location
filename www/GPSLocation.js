@@ -63,34 +63,6 @@ function createTimeout(errorCallback, timeout) {
 	return t;
 }
 
-/*
-function checkPermissions() {
-cordova.plugins.diagnostic.getPermissionsAuthorizationStatus(function(statuses){
-    for (var permission in statuses){
-        switch(statuses[permission]){
-            case cordova.plugins.diagnostic.permissionStatus.GRANTED:
-                console.log("Permission granted to use "+permission);
-                break;
-            case cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED:
-                console.log("Permission to use "+permission+" has not been requested yet");
-                break;
-            case cordova.plugins.diagnostic.permissionStatus.DENIED_ONCE:
-                console.log("Permission denied to use "+permission+" - ask again?");
-                break;
-            case cordova.plugins.diagnostic.permissionStatus.DENIED_ALWAYS:
-                console.log("Permission permanently denied to use "+permission+" - guess we won't be using it then!");
-                break;
-        }
-    }
-}, function(error){
-    console.error("The following error occurred: "+error);
-},[
-    cordova.plugins.diagnostic.permission.ACCESS_FINE_LOCATION,
-    cordova.plugins.diagnostic.permission.ACCESS_COARSE_LOCATION
-]);
-}
-*/
-
 var GPSLocation = {
 	lastPosition: null, // reference to last known (cached) position returned
 	/**
@@ -173,7 +145,8 @@ var GPSLocation = {
 			var permissionWin = function () {
 				console.log('permission Success');
 	            //var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation'); // eslint-disable-line no-undef
-				exec(win, fail, "GPSLocation", "getLocation", [options.maximumAge]);
+				var locres = exec(win, fail, "GPSLocation", "getLocation", [options.maximumAge]);
+				console.log('location called' + locres);
 	        };
 	        var permissionFail = function (error) {
 				console.log('permission Failed'+error);
@@ -181,8 +154,8 @@ var GPSLocation = {
 	                error(new PositionError(PositionError.PERMISSION_DENIED, 'Illegal Access'));
 	            }
 	        };
-	 		exec(permissionWin, permissionFail, 'Geolocation', 'getPermission', []);
-			console.log('exec finished');
+	 		var res = exec(permissionWin, permissionFail, 'Geolocation', 'getPermission', []);
+			console.log('exec finished' + res);
 		}
 		console.log('returning timeoutTimer');
 		return timeoutTimer;

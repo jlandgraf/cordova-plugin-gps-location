@@ -84,7 +84,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 		if(action.equals("getPermission"))
 		{
-		    if(hasPermisssion())
+		    if(hasLocationPermission())
 		    {
 		        PluginResult r = new PluginResult(PluginResult.Status.OK);
 		        callbackContext.sendPluginResult(r);
@@ -114,7 +114,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			addWatch(id, callbackContext);
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -268,47 +268,45 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		return mListener;
 	}
 
+	public void onRequestPermissionResult(int requestCode, String[] permissions,
+	                                      int[] grantResults) throws JSONException
+	{
+	    PluginResult result;
+	    //This is important if we're using Cordova without using Cordova, but we have the geolocation plugin installed
+	    if(_context != null) {
+	        for (int r : grantResults) {
+	            if (r == PackageManager.PERMISSION_DENIED) {
+	                Log.d(LocationUtils.APPTAG, "Permission Denied!");
+	                result = new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION);
+	                _context.sendPluginResult(result);
+	                return;
+	            }
 
+	        }
+	        result = new PluginResult(PluginResult.Status.OK);
+	        _context.sendPluginResult(result);
+	    }
+	}
 
-    public void onRequestPermissionResult(int requestCode, String[] permissions,
-                                          int[] grantResults) throws JSONException
-    {
-        PluginResult result;
-        //This is important if we're using Cordova without using Cordova, but we have the geolocation plugin installed
-        if(_context != null) {
-            for (int r : grantResults) {
-                if (r == PackageManager.PERMISSION_DENIED) {
-                    Log.d(LocationUtils.APPTAG, "Permission Denied!");
-                    result = new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION);
-                    _context.sendPluginResult(result);
-                    return;
-                }
+	public boolean hasLocationPermission() {
+	  for(String p : permissions)
+	  {
+	      if(!PermissionHelper.hasPermission(this, p))
+	      {
+	          return false;
+	      }
+	  }
+	  return true;
+	}
 
-            }
-            result = new PluginResult(PluginResult.Status.OK);
-            _context.sendPluginResult(result);
-        }
-    }
-
-    public boolean hasPermisssion() {
-      for(String p : permissions)
-      {
-          if(!PermissionHelper.hasPermission(this, p))
-          {
-              return false;
-          }
-      }
-      return true;
-    }
-
-    /*
-     * We override this so that we can access the permissions variable, which no longer exists in
-     * the parent class, since we can't initialize it reliably in the constructor!
-     */
-    public void requestPermissions(int requestCode)
-    {
-        PermissionHelper.requestPermissions(this, requestCode, permissions);
-    }
+	/*
+	 * We override this so that we can access the permissions variable, which no longer exists in
+	 * the parent class, since we can't initialize it reliably in the constructor!
+	 */
+	public void requestPermissions(int requestCode)
+	{
+	    PermissionHelper.requestPermissions(this, requestCode, permissions);
+	}
 
 
 }
