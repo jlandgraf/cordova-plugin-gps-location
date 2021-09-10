@@ -27,6 +27,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.pm.PackageManager;
+import android.Manifest;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
