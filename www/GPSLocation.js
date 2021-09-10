@@ -73,7 +73,7 @@ var GPSLocation = {
 	 * @param {PositionOptions} options     The options for getting the position data. (OPTIONAL)
 	 */
 	getCurrentPosition: function (successCallback, errorCallback, options) {
-		console.log('getCurrentPosition called');
+		//console.log('getCurrentPosition called');
 		argscheck.checkArgs('fFO', 'GPSLocation.getCurrentPosition', arguments);
 		options = parseParameters(options);
 
@@ -82,17 +82,17 @@ var GPSLocation = {
 		var timeoutTimer = {
 			timer: null
 		};
-		console.log('declaring the functions');
+		//console.log('declaring the functions');
 		var win = function (p) {
 			clearTimeout(timeoutTimer.timer);
 			if (!(timeoutTimer.timer)) {
 				// Timeout already happened, or native fired error callback for
 				// this geo request.
 				// Don't continue with success callback.
- 				console.log('timeout already happened');
+ 				//console.log('timeout already happened');
 				return;
 			}
-			console.log('win:' + p);
+			//console.log('win:' + p.latitude + ',' + p.longitude);
 			var pos = new Position({
 				latitude: p.latitude,
 				longitude: p.longitude,
@@ -106,7 +106,7 @@ var GPSLocation = {
 			successCallback(pos);
 		};
 		var fail = function (e) {
-			console.log('failed[' + e.code + e.message);
+			console.log(e);
 			clearTimeout(timeoutTimer.timer);
 			timeoutTimer.timer = null;
 			var err = new PositionError(e.code, e.message);
@@ -118,18 +118,18 @@ var GPSLocation = {
 		// Check our cached position, if its timestamp difference with current time is less than the maximumAge, then just
 		// fire the success callback with the cached position.
 		if (GPSLocation.lastPosition && options.maximumAge && (((new Date()).getTime() - GPSLocation.lastPosition.timestamp.getTime()) <= options.maximumAge)) {
-			console.log('returning last Position');
+			//console.log('returning last Position');
 			successCallback(GPSLocation.lastPosition);
 			// If the cached position check failed and the timeout was set to 0, error out with a TIMEOUT error object.
 		} else if (options.timeout === 0) {
-			console.log('error');
+			//console.log('error');
 			fail({
 				code: PositionError.TIMEOUT,
 				message: "timeout value in PositionOptions set to 0 and no cached Position object available, or cached Position object's age exceeds provided PositionOptions' maximumAge parameter."
 			});
 			// Otherwise we have to call into native to retrieve a position.
 		} else {
-			console.log('calling java');
+			//console.log('calling java');
 			if (options.timeout !== Infinity) {
 				// If the timeout value was not set to Infinity (default), then
 				// set up a timeout function that will fire the error callback
@@ -141,21 +141,21 @@ var GPSLocation = {
 				// always truthy before we call into native
 				timeoutTimer.timer = true;
 			}
-			console.log('permission first, then actual calling');
+			//console.log('permission first, then actual calling');
 			var permissionWin = function () {
-				console.log('permission Success');
+				//console.log('permission Success');
 	            //var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation'); // eslint-disable-line no-undef
 				exec(win, fail, 'CordovaGPSLocation', 'getLocation', [options.maximumAge]);
 	        };
 	        var permissionFail = function () {
-				console.log('Permission Failed');
+				//console.log('Permission Failed');
 	            if (errorCallback) {
 	                errorCallback(new PositionError(PositionError.PERMISSION_DENIED, 'Illegal Access'));
 	            }
 	        };
 	 		exec(permissionWin, permissionFail, 'CordovaGPSLocation', 'getPermission', []);
 		}
-		console.log('returning timeoutTimer');
+		//console.log('returning timeoutTimer');
 		return timeoutTimer;
 	},
 	/**
