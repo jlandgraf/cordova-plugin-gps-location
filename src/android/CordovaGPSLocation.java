@@ -19,16 +19,21 @@
 package com.coolprofs.cordova.gpslocation;
 
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaArgs;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.LOG;
+import org.apache.cordova.PermissionHelper;
 import org.apache.cordova.PluginResult;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.pm.PackageManager;
 import android.Manifest;
+import android.os.Build;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
