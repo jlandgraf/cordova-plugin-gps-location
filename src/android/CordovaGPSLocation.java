@@ -46,6 +46,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 	private CordovaLocationListener mListener;
 	private LocationManager mLocationManager;
+	CallbackContext _context;
 
 	String [] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION };
 
@@ -78,16 +79,15 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			return false;
 		}
 
+		_context = callbackContext;
 		final String id = args.optString(0, "");
-
-
 
 		if(action.equals("getPermission"))
 		{
 		    if(hasPermisssion())
 		    {
 		        PluginResult r = new PluginResult(PluginResult.Status.OK);
-		        context.sendPluginResult(r);
+		        callbackContext.sendPluginResult(r);
 		        return true;
 		    }
 		    else {
@@ -275,18 +275,18 @@ public class CordovaGPSLocation extends CordovaPlugin {
     {
         PluginResult result;
         //This is important if we're using Cordova without using Cordova, but we have the geolocation plugin installed
-        if(context != null) {
+        if(_context != null) {
             for (int r : grantResults) {
                 if (r == PackageManager.PERMISSION_DENIED) {
                     LOG.d(TAG, "Permission Denied!");
                     result = new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION);
-                    context.sendPluginResult(result);
+                    _context.sendPluginResult(result);
                     return;
                 }
 
             }
             result = new PluginResult(PluginResult.Status.OK);
-            context.sendPluginResult(result);
+            _context.sendPluginResult(result);
         }
     }
 
