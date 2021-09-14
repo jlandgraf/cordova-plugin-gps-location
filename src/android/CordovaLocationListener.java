@@ -107,7 +107,7 @@ public class CordovaLocationListener implements LocationListener {
 		mCallbacks.add(callbackContext);
 
 		if (size() == 1) {
-			start(useLastLocation);
+			start();
 		}
 	}
 
@@ -160,7 +160,7 @@ public class CordovaLocationListener implements LocationListener {
 		}
 	}
 
-	private void start(boolean useLastLocation) {
+	private void start() {
 		/* this is called, checked with an explicit fail, no error is thrown */
 		/* I do wonder, if the "this" pointer is the right way 
 		  looking in other codes, it's actually using a class-variable
@@ -168,11 +168,6 @@ public class CordovaLocationListener implements LocationListener {
 		int intervalInMs = 100;
 		float distanceInM = 0f;
 		mOwner.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, intervalInMs, distanceInM, this);
-		/* tickle me elmo */
-		Location loc = mOwner.getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		if(useLastLocation && loc!=null) {
-			win(loc);
-		}
 	}
 
 	private void stop() {
