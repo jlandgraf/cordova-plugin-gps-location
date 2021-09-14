@@ -47,7 +47,7 @@ function parseParameters(options) {
 			}
 		}
 		if (options.useLastLocation !== undefined) {
-			opt.useLastLocation = option.useLastLocation;
+			opt.useLastLocation = options.useLastLocation;
 		}
 	}
 
@@ -77,7 +77,8 @@ var GPSLocation = {
 	 * @param {PositionOptions} options     The options for getting the position data. (OPTIONAL)
 	 */
 	getCurrentPosition: function (successCallback, errorCallback, options) {
-		//console.log('getCurrentPosition called');
+		console.log('getCurrentPosition called');
+		console.log(options);
 		argscheck.checkArgs('fFO', 'GPSLocation.getCurrentPosition', arguments);
 		options = parseParameters(options);
 
@@ -86,6 +87,7 @@ var GPSLocation = {
 
 		console.log('options.timeout:' + options.timeout + '\n' + 
 			'options.maximumAge:' + options.maximumAge + '\n' 
+			'options.useLastLocation:' + options.useLastLocation + '\n'
 			);
 		var timeoutTimer = {
 			timer: null
