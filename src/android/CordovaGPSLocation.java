@@ -47,7 +47,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 	private CordovaLocationListener mListener;
 	private LocationManager mLocationManager;
-	private LocationListener mListener;
+	private LocationListener mSimpleListener;
 	CallbackContext _context;
 
 	String [] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION };
@@ -115,7 +115,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		if (action.equals("getLocation")) {
 			getLastLocation(args, _context);
 		} else if (action.equals("getSimpleLocation")) {
-			getSimpleLocation(id, _context);
+			getSimpleLocation(args, _context);
 		} else if (action.equals("addWatch")) {
 			addWatch(id, _context);
 		}
@@ -247,7 +247,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			maximumAge = 0;
 		}
 
-		mListener = new LocationListener() {
+		mSimpleListener = new LocationListener() {
 			@Override
 		  public void onLocationChanged(Location location) {
 		  	win(location, callbackContext, false);
@@ -267,7 +267,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
     };
 
 
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, mListener);
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, mSimpleListener);
 		/* removed network, because we want to rely on GPS only! */
 		Location last = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		// Check if we can use lastKnownLocation to get a quick reading and use
