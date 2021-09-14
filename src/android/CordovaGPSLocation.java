@@ -213,11 +213,14 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 	private void getLastLocation(JSONArray args, CallbackContext callbackContext) {
 		int maximumAge;
+		boolean useLastLocation;
 		try {
 			maximumAge = args.getInt(0);
+			useLastLocation = args.getBoolean(1);
 		} catch (JSONException e) {
 			e.printStackTrace();
 			maximumAge = 0;
+			useLastLocation = false;
 		}
 
 		/* removed network, because we want to rely on GPS only! */
@@ -226,7 +229,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		// less battery
 		/* we try always to return the last location... */
 		if (last != null) {
-		  if((maximumAge == Integer.MAX_VALUE) || ((System.currentTimeMillis() - last.getTime()) <= maximumAge)) {
+		  if(useLastLocation || ((System.currentTimeMillis() - last.getTime()) <= maximumAge)) {
 				PluginResult result = new PluginResult(PluginResult.Status.OK, returnLocationJSON(last));
 				callbackContext.sendPluginResult(result);
 			} else {

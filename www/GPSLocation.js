@@ -32,6 +32,7 @@ function parseParameters(options) {
 	var opt = {
 		maximumAge: 0,
 		timeout: Infinity,
+		useLastLocation : false;
 	};
 
 	if (options) {
@@ -44,6 +45,9 @@ function parseParameters(options) {
 			} else {
 				opt.timeout = options.timeout;
 			}
+		}
+		if (options.useLastLocation !== undefined) {
+			opt.useLastLocation = option.useLastLocation;
 		}
 	}
 
@@ -147,9 +151,9 @@ var GPSLocation = {
 			}
 			//console.log('permission first, then actual calling');
 			var permissionWin = function () {
-				console.log('permission Success');
+				console.log('permission Success' + options.maximumAge +',' + options.useLastLocation);
 	            //var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation'); // eslint-disable-line no-undef
-				exec(win, fail, 'CordovaGPSLocation', 'getLocation', [options.maximumAge]);
+				exec(win, fail, 'CordovaGPSLocation', 'getLocation', [options.maximumAge, options.useLastLocation]);
 	        };
 	        var permissionFail = function () {
 				console.log('Permission Failed');
