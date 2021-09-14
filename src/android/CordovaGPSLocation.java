@@ -226,7 +226,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		// less battery
 		/* we try always to return the last location... */
 		if (last != null) {
-		  if((System.currentTimeMillis() - last.getTime()) <= maximumAge) {
+		  if((maximumAge == Integer.MAX_VALUE) || ((System.currentTimeMillis() - last.getTime()) <= maximumAge)) {
 				PluginResult result = new PluginResult(PluginResult.Status.OK, returnLocationJSON(last));
 				callbackContext.sendPluginResult(result);
 			} else {
@@ -236,62 +236,6 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			getCurrentLocation(callbackContext, Integer.MAX_VALUE);
 		}
 	}
-
-	/* make it simpler and workable? 
-	private void getSimpleLocation(JSONArray args, CallbackContext callbackContext) {
-		int maximumAge;
-		try {
-			maximumAge = args.getInt(0);
-		} catch (JSONException e) {
-			e.printStackTrace();
-			maximumAge = 0;
-		}
-
-
-		mSimpleListener = new LocationListener() {
-			
-			@Override
-		  public void onLocationChanged(Location location) {
-		  	win(location, _context, false);
-			}
-
-			@Override
-			public void onProviderDisabled(String provider) {
-				if (LocationManager.GPS_PROVIDER.equals(provider)) {
-					fail(POSITION_UNAVAILABLE, "GPS provider has been disabled.", _context, false);
-				}
-			}
-
-			@Override
-			public void onStatusChanged(String provider, int status, Bundle extras) {
-				Log.d(TAG, "Provider " + provider + " status changed to " + status);
-			}
-
-			@Override
-			public void onProviderEnabled(String provider) {
-				Log.d(TAG, "Provider " + provider + " has been enabled.");
-			}
-
-    };
-
-
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, mSimpleListener);
-		//removed network, because we want to rely on GPS only!
-		Location last = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		// Check if we can use lastKnownLocation to get a quick reading and use
-		// less battery
-		// we try always to return the last location... 
-		if (last != null) {
-		  if((System.currentTimeMillis() - last.getTime()) <= maximumAge) {
-				PluginResult result = new PluginResult(PluginResult.Status.OK, returnLocationJSON(last));
-				callbackContext.sendPluginResult(result);
-			} 
-		}
-
-	}
-	*/
-
-
 
 	private void clearWatch(String id) {
 		getListener().clearWatch(id);

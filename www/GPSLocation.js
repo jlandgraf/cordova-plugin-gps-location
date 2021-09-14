@@ -121,13 +121,6 @@ var GPSLocation = {
 			}
 		};
 
-		// Check our cached position, if its timestamp difference with current time is less than the maximumAge, then just
-		// fire the success callback with the cached position.
-		console.log (GPSLocation.lastPosition);
-		console.log(options.maximumAge);
-		if (GPSLocation.lastPosition && options.maximumAge) {
-			console.log((((new Date()).getTime() - GPSLocation.lastPosition.timestamp.getTime()) <= options.maximumAge));
-		}
 		if (GPSLocation.lastPosition && options.maximumAge && (((new Date()).getTime() - GPSLocation.lastPosition.timestamp.getTime()) <= options.maximumAge)) {
 			console.log('returning cached last Position');
 			successCallback(GPSLocation.lastPosition);
