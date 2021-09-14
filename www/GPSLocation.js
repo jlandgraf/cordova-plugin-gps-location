@@ -143,12 +143,12 @@ var GPSLocation = {
 			}
 			//console.log('permission first, then actual calling');
 			var permissionWin = function () {
-				//console.log('permission Success');
+				console.log('permission Success');
 	            //var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation'); // eslint-disable-line no-undef
 				exec(win, fail, 'CordovaGPSLocation', 'getLocation', [options.maximumAge]);
 	        };
 	        var permissionFail = function () {
-				//console.log('Permission Failed');
+				console.log('Permission Failed');
 	            if (errorCallback) {
 	                errorCallback(new PositionError(PositionError.PERMISSION_DENIED, 'Illegal Access'));
 	            }

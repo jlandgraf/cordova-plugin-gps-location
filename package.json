@@ -1,9 +1,9 @@
 {
-  "name": "cordova-plugin-gpslocation",
+  "name": "cordova-plugin-simple-gpslocation",
   "version": "1.0.0",
   "description": "Android geolocation plugin using GPS provider",
   "cordova": {
-    "id": "cordova-plugin-gpslocation",
+    "id": "cordova-plugin-simple-gpslocation",
     "platforms": [
       "android"
     ]
