@@ -79,17 +79,22 @@ var GPSLocation = {
 
 		// Timer var that will fire an error callback if no position is retrieved from native
 		// before the "timeout" param provided expires
+
+		console.log('options.timeout:' + options.timeout + '\n' 
+			'options.maximumAge:' + options.maximumAge + '\n' 
+			);
 		var timeoutTimer = {
 			timer: null
 		};
 		//console.log('declaring the functions');
 		var win = function (p) {
+			console.log('win resolve');
 			clearTimeout(timeoutTimer.timer);
 			if (!(timeoutTimer.timer)) {
 				// Timeout already happened, or native fired error callback for
 				// this geo request.
 				// Don't continue with success callback.
- 				//console.log('timeout already happened');
+ 				console.log('timeout already happened');
 				return;
 			}
 			//console.log('win:' + p.latitude + ',' + p.longitude);
@@ -106,6 +111,7 @@ var GPSLocation = {
 			successCallback(pos);
 		};
 		var fail = function (e) {
+			console.log('fail resolve');
 			clearTimeout(timeoutTimer.timer);
 			timeoutTimer.timer = null;
 			var err = new PositionError(!!e.code ? e.code : -999, !!e.message ? e.message : 'unknown error');
@@ -116,20 +122,24 @@ var GPSLocation = {
 
 		// Check our cached position, if its timestamp difference with current time is less than the maximumAge, then just
 		// fire the success callback with the cached position.
-		console.log('max age:' + options.maximumAge);
+		console.log (GPSLocation.lastPosition);
+		console.log(options.maximumAge);
+		if (GPSLocation.lastPosition && options.maximumAge) {
+			console.log((((new Date()).getTime() - GPSLocation.lastPosition.timestamp.getTime()) <= options.maximumAge));
+		}
 		if (GPSLocation.lastPosition && options.maximumAge && (((new Date()).getTime() - GPSLocation.lastPosition.timestamp.getTime()) <= options.maximumAge)) {
 			console.log('returning cached last Position');
 			successCallback(GPSLocation.lastPosition);
 			// If the cached position check failed and the timeout was set to 0, error out with a TIMEOUT error object.
 		} else if (options.timeout === 0) {
-			//console.log('error');
+			console.log('error because of timeout = 0');
 			fail({
 				code: PositionError.TIMEOUT,
 				message: "timeout value in PositionOptions set to 0 and no cached Position object available, or cached Position object's age exceeds provided PositionOptions' maximumAge parameter."
 			});
 			// Otherwise we have to call into native to retrieve a position.
 		} else {
-			//console.log('calling java');
+			console.log('calling java');
 			if (options.timeout !== Infinity) {
 				// If the timeout value was not set to Infinity (default), then
 				// set up a timeout function that will fire the error callback
