@@ -247,23 +247,30 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			maximumAge = 0;
 		}
 
+
 		mSimpleListener = new LocationListener() {
 			@Override
 		  public void onLocationChanged(Location location) {
-		  	win(location, callbackContext, false);
+		  	win(location, _context, false);
 			}
 
 			@Override
-			public void onStatusChanged(String s, int i, Bundle bundle) {
-	    }
+			public void onProviderDisabled(String provider) {
+				if (LocationManager.GPS_PROVIDER.equals(provider)) {
+					fail(POSITION_UNAVAILABLE, "GPS provider has been disabled.", _context, false);
+				}
+			}
 
-	    @Override
-	    public void onProviderEnabled(String s) {
-	    }
+			@Override
+			public void onStatusChanged(String provider, int status, Bundle extras) {
+				Log.d(TAG, "Provider " + provider + " status changed to " + status);
+			}
 
-	    @Override
-	    public void onProviderDisabled(String s) {
-	    }
+			@Override
+			public void onProviderEnabled(String provider) {
+				Log.d(TAG, "Provider " + provider + " has been enabled.");
+			}
+
     };
 
 
