@@ -86,7 +86,7 @@ var GPSLocation = {
 		// before the "timeout" param provided expires
 
 		console.log('options.timeout:' + options.timeout + '\n' + 
-			'options.maximumAge:' + options.maximumAge + '\n' 
+			'options.maximumAge:' + options.maximumAge + '\n' +
 			'options.useLastLocation:' + options.useLastLocation + '\n'
 			);
 		var timeoutTimer = {
