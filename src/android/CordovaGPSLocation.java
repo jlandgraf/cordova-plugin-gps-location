@@ -114,8 +114,8 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 		if (action.equals("getLocation")) {
 			getLastLocation(args, _context);
-		} else if (action.equals("getSimpleLocation")) {
-			getSimpleLocation(args, _context);
+		//} else if (action.equals("getSimpleLocation")) {
+//			getSimpleLocation(args, _context);
 		} else if (action.equals("addWatch")) {
 			addWatch(id, _context);
 		}
