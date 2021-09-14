@@ -230,15 +230,8 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			maximumAge = 0;
 		}
 
-		/* removed network, because we ant to rely on GPS only! */
-		Location last;
-		if(!isGPSdisabled()) {
-				last = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		//} else if (!isNetworkdisabled()) {
-		//		last = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		} else {
-			last = null;
-		}
+		/* removed network, because we want to rely on GPS only! */
+		Location last = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		// Check if we can use lastKnownLocation to get a quick reading and use
 		// less battery
 		/* we try always to return the last location... */

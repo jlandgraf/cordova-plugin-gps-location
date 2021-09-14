@@ -41,7 +41,7 @@ public class CordovaLocationListener implements LocationListener {
 
 	protected boolean mIsRunning = false;
 
-	private CordovaGPSLocation mOwner;
+	private final CordovaGPSLocation mOwner;
 	private List<CallbackContext> mCallbacks = new ArrayList<CallbackContext>();
 	private Timer mTimer = null;
 	private String TAG;
@@ -53,6 +53,7 @@ public class CordovaLocationListener implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
+		/* this is for some reason never called */
 		Log.d(TAG, "The location has been updated!");
 		win(location);
 	}
@@ -67,8 +68,6 @@ public class CordovaLocationListener implements LocationListener {
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		Log.d(TAG, "Provider " + provider + " status changed to " + status);
-		/* to see if we get anything */
-		fail(-24, "Provider " + provider + " status changed to " + status);
 	}
 
 	@Override
@@ -153,12 +152,8 @@ public class CordovaLocationListener implements LocationListener {
 	}
 
 	private void start() {
-		/* for some reason, this one is not giving the updates */
-		if(mOwner.getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			mOwner.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0f, this);
-		} else {
-			fail(-23, "failed to start requesting"); 
-		}
+		/* this is called, checked with an explicit fail, no error is thrown */
+		mOwner.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 0f, this);
 	}
 
 	private void stop() {
