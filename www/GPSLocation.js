@@ -80,7 +80,7 @@ var GPSLocation = {
 		// Timer var that will fire an error callback if no position is retrieved from native
 		// before the "timeout" param provided expires
 
-		console.log('options.timeout:' + options.timeout + '\n' 
+		console.log('options.timeout:' + options.timeout + '\n' + 
 			'options.maximumAge:' + options.maximumAge + '\n' 
 			);
 		var timeoutTimer = {
