@@ -54,7 +54,6 @@ public class CordovaLocationListener implements LocationListener {
 	@Override
 	public void onLocationChanged(Location location) {
 		Log.d(TAG, "The location has been updated!");
-		fail(-23,"bubbling location");
 		win(location);
 	}
 
@@ -66,17 +65,16 @@ public class CordovaLocationListener implements LocationListener {
 	}
 
 	@Override
-  public void onProviderEnabled(String provider) {
-      // TODO Auto-generated method stub
-  }
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		Log.d(TAG, "Provider " + provider + " status changed to " + status);
+		/* to see if we get anything */
+		fail(-24, "Provider " + provider + " status changed to " + status);
+	}
 
 	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-	    // TODO Auto-generated method stub
-		fail(-24, "StatusChanged?" + provider + "::" + status);
-	}           
-
-
+	public void onProviderEnabled(String provider) {
+		Log.d(TAG, "Provider " + provider + " has been enabled.");
+	}
 
 	public int size() {
 		return watches.size() + mCallbacks.size();
@@ -90,11 +88,13 @@ public class CordovaLocationListener implements LocationListener {
 		}
 	}
 
+	/* we are trying to get a new location listner running */
 	public void addCallback(CallbackContext callbackContext, int timeout) {
 		if (mTimer == null) {
 			mTimer = new Timer();
 		}
 
+		/* do not understand, if the callback is already there??? */
 		mTimer.schedule(new LocationTimeoutTask(callbackContext, this), timeout);
 		mCallbacks.add(callbackContext);
 
@@ -198,15 +198,5 @@ public class CordovaLocationListener implements LocationListener {
 				mListener.stop();
 			}
 		}
-	}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		Log.d(TAG, "Provider " + provider + " status changed to " + status);
-	}
-
-	@Override
-	public void onProviderEnabled(String provider) {
-		Log.d(TAG, "Provider " + provider + " has been enabled.");
 	}
 }
