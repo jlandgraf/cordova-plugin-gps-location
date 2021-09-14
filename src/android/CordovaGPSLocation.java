@@ -309,6 +309,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 	 * We override this so that we can access the permissions variable, which no longer exists in
 	 * the parent class, since we can't initialize it reliably in the constructor!
 	 */
+	@Override
 	public void requestPermissions(int requestCode)
 	{
 	    PermissionHelper.requestPermissions(this, requestCode, permissions);

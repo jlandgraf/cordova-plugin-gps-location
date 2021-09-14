@@ -65,6 +65,19 @@ public class CordovaLocationListener implements LocationListener {
 		}
 	}
 
+	@Override
+  public void onProviderEnabled(String provider) {
+      // TODO Auto-generated method stub
+  }
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+	    // TODO Auto-generated method stub
+		fail(-24, "StatusChanged?" + provider + "::" + status);
+	}           
+
+
+
 	public int size() {
 		return watches.size() + mCallbacks.size();
 	}
@@ -140,7 +153,12 @@ public class CordovaLocationListener implements LocationListener {
 	}
 
 	private void start() {
-		mOwner.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+		/* for some reason, this one is not giving the updates */
+		try {
+			mOwner.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0f, this);
+		catch (Exception e) {
+			fail(-23, "failed to start requesting"+ e.toString()); 
+		}
 	}
 
 	private void stop() {
