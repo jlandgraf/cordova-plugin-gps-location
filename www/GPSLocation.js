@@ -156,7 +156,7 @@ var GPSLocation = {
 			var permissionWin = function () {
 				console.log('permission Success');
 	            //var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation'); // eslint-disable-line no-undef
-				exec(win, fail, 'CordovaGPSLocation', 'getLocation', [options.maximumAge]);
+				exec(win, fail, 'CordovaGPSLocation', 'getSimpleLocation', [options.maximumAge]);
 	        };
 	        var permissionFail = function () {
 				console.log('Permission Failed');

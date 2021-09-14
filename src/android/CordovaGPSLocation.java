@@ -35,6 +35,7 @@ import android.Manifest;
 import android.os.Build;
 import android.content.Context;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.util.Log;
 
@@ -46,6 +47,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 	private CordovaLocationListener mListener;
 	private LocationManager mLocationManager;
+	private LocationListener mListener;
 	CallbackContext _context;
 
 	String [] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION };
@@ -75,7 +77,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 	public boolean execute(final String action, final JSONArray args,
 			final CallbackContext callbackContext) {
 
-		if (action == null || !action.matches("getLocation|addWatch|clearWatch|getPermission")) {
+		if (action == null || !action.matches("getLocation|getSimpleLocation|addWatch|clearWatch|getPermission")) {
 			fail(99, "unknown action", callbackContext, false);
 			return false;
 		}
@@ -112,6 +114,8 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 		if (action.equals("getLocation")) {
 			getLastLocation(args, _context);
+		} else if (action.equals("getSimpleLocation")) {
+			getSimpleLocation(id, _context);
 		} else if (action.equals("addWatch")) {
 			addWatch(id, _context);
 		}
@@ -206,20 +210,6 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 		return !gps_enabled;
 	}
-/*
-	private boolean isNetworkdisabled() {
-		boolean network_enabled;
-		try {
-			network_enabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			network_enabled = false;
-		}
-
-		return !network_enabled;
-	}
-*/
-
 
 	private void getLastLocation(JSONArray args, CallbackContext callbackContext) {
 		int maximumAge;
@@ -246,6 +236,54 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			getCurrentLocation(callbackContext, Integer.MAX_VALUE);
 		}
 	}
+
+	/* make it simpler and workable? */
+	private void getSimpleLocation(JSONArray args, CallbackContext callbackContext) {
+		int maximumAge;
+		try {
+			maximumAge = args.getInt(0);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			maximumAge = 0;
+		}
+
+		mListener = new LocationListener() {
+			@Override
+		  public void onLocationChanged(Location location) {
+		  	win(location, callbackContext, false);
+			}
+
+			@Override
+			public void onStatusChanged(String s, int i, Bundle bundle) {
+	    }
+
+	    @Override
+	    public void onProviderEnabled(String s) {
+	    }
+
+	    @Override
+	    public void onProviderDisabled(String s) {
+	    }
+    };
+
+
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, mListener);
+		/* removed network, because we want to rely on GPS only! */
+		Location last = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		// Check if we can use lastKnownLocation to get a quick reading and use
+		// less battery
+		/* we try always to return the last location... */
+		if (last != null) {
+		  if((System.currentTimeMillis() - last.getTime()) <= maximumAge) {
+				PluginResult result = new PluginResult(PluginResult.Status.OK, returnLocationJSON(last));
+				callbackContext.sendPluginResult(result);
+			} 
+		}
+
+		/* we wait ?*/
+	}
+
+
 
 	private void clearWatch(String id) {
 		getListener().clearWatch(id);
