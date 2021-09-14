@@ -56,17 +56,6 @@ public class CordovaLocationListener implements LocationListener {
 		win(location);
 	}
 
-	/* api lvl 31, so not yet available? 
-	@Override
-	public void onLocationChanged(List<Location> locations) {
-		if(locations.size() >= 1) {
-			win(locations.get(locations.size()-1));
-		} else {
-			fail(-9, "list of locations is empty");
-		}
-	}
-	*/
-
 	@Override
 	public void onProviderDisabled(String provider) {
 		if (LocationManager.GPS_PROVIDER.equals(provider)) {
