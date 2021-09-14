@@ -233,6 +233,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		  if(useLastLocation || ((System.currentTimeMillis() - last.getTime()) <= maximumAge)) {
 				PluginResult result = new PluginResult(PluginResult.Status.OK, returnLocationJSON(last));
 				callbackContext.sendPluginResult(result);
+			}
 		}
 	}
 
