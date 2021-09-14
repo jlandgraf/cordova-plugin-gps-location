@@ -88,7 +88,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		    if(hasLocationPermission())
 		    {
 		        PluginResult r = new PluginResult(PluginResult.Status.OK);
-		        callbackContext.sendPluginResult(r);
+		        _context.sendPluginResult(r);
 		        return true;
 		    }
 		    else {
@@ -106,14 +106,14 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 		/* only GPS check */
 		if (isGPSdisabled()) {
-				fail(CordovaLocationListener.POSITION_UNAVAILABLE, "GPS is disabled on this device.", callbackContext, false);
+				fail(CordovaLocationListener.POSITION_UNAVAILABLE, "GPS is disabled on this device.", _context, false);
 				return true;
 		}
 
 		if (action.equals("getLocation")) {
-			getLastLocation(args, callbackContext);
+			getLastLocation(args, _context);
 		} else if (action.equals("addWatch")) {
-			addWatch(id, callbackContext);
+			addWatch(id, _context);
 		}
 
 		return true;
@@ -230,6 +230,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			maximumAge = 0;
 		}
 
+		/* removed network, because we ant to rely on GPS only! */
 		Location last;
 		if(!isGPSdisabled()) {
 				last = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -257,8 +258,10 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		getListener().clearWatch(id);
 	}
 
+	/* for some reason, it's breaking here! */
 	private void getCurrentLocation(CallbackContext callbackContext, int timeout) {
-		getListener().addCallback(callbackContext, timeout);
+		fail(-23, "trying to get currentlocation", callbackContext, false);
+		//getListener().addCallback(callbackContext, timeout);
 	}
 
 	private void addWatch(String timerId, CallbackContext callbackContext) {
