@@ -77,7 +77,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 	public boolean execute(final String action, final JSONArray args,
 			final CallbackContext callbackContext) {
 
-		if (action == null || !action.matches("getLocation|getSimpleLocation|addWatch|clearWatch|getPermission")) {
+		if (action == null || !action.matches("getLocation|addWatch|clearWatch|getPermission")) {
 			fail(99, "unknown action", callbackContext, false);
 			return false;
 		}

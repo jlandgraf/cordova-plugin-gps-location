@@ -39,8 +39,6 @@ public class CordovaLocationListener implements LocationListener {
 
 	public HashMap<String, CallbackContext> watches = new HashMap<String, CallbackContext>();
 
-	protected boolean mIsRunning = false;
-
 	private CordovaGPSLocation mOwner;
 	private List<CallbackContext> mCallbacks = new ArrayList<CallbackContext>();
 	private Timer mTimer = null;
@@ -153,25 +151,21 @@ public class CordovaLocationListener implements LocationListener {
 
 	private void start() {
 		/* this is called, checked with an explicit fail, no error is thrown */
-		if(!mIsRunning) {
-			/* I do wonder, if the "this" pointer is the right way 
-			  looking in other codes, it's actually using a class-variable
-			*/
-			mOwner.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, this);
-			/* tickle me elmo */
-			Location loc = mOwner.getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			if(loc != null) {
-				/* for some reason we have a loc now? */
-				win(loc);
-			}
+		/* I do wonder, if the "this" pointer is the right way 
+		  looking in other codes, it's actually using a class-variable
+		*/
+		mOwner.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, this);
+		/* tickle me elmo */
+		Location loc = mOwner.getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		if(loc != null) {
+			/* for some reason we have a loc now? */
+			win(loc);
 		}
-		mIsRunning = true;
 	}
 
 	private void stop() {
 		cancelTimer();
 		mOwner.getLocationManager().removeUpdates(this);
-		mIsRunning = false;
 	}
 
 	private void cancelTimer() {
