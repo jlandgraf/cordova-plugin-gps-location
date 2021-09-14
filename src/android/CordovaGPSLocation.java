@@ -168,11 +168,8 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 	/**
 	 * Location failed. Send error back to JavaScript.
-	 *
-	 * @param code
-	 *            The error code
-	 * @param msg
-	 *            The error message
+	 * @param code The error code
+	 * @param msg  The error message
 	 * @throws JSONException
 	 */
 	public void fail(int code, String msg, CallbackContext callbackContext,
@@ -223,28 +220,30 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		}
 
 		/* start listening */
-		getCurrentLocation(callbackContext, Integer.MAX_VALUE);	
+		startListening(callbackContext, Integer.MAX_VALUE);	
 
 		Location last = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		// Check if we can use lastKnownLocation to get a quick reading and use
 		// less battery
-		/* we try always to return the last location... */
 		if (last != null) {
+			// we do have something in lastlocation
+			// now we check if we want that or the cache is still fresh enough
 		  if(useLastLocation || ((System.currentTimeMillis() - last.getTime()) <= maximumAge)) {
 				PluginResult result = new PluginResult(PluginResult.Status.OK, returnLocationJSON(last));
 				callbackContext.sendPluginResult(result);
 			}
 		}
+		/* we wait */
+	}
+
+
+	private void startListening(CallbackContext callbackContext, int timeout) {
+		getListener().addCallback(callbackContext, timeout);
 	}
 
 	private void clearWatch(String id) {
 		getListener().clearWatch(id);
 	}
-
-	private void getCurrentLocation(CallbackContext callbackContext, int timeout, boolean useLastLocation) {
-		getListener().addCallback(callbackContext, timeout);
-	}
-
 	private void addWatch(String timerId, CallbackContext callbackContext) {
 		getListener().addWatch(timerId, callbackContext);
 	}

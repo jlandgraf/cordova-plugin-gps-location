@@ -81,17 +81,16 @@ public class CordovaLocationListener implements LocationListener {
 		watches.put(timerId, callbackContext);
 
 		if (size() == 1) {
-			start(false);
+			start();
 		}
 	}
 
 	/* we are trying to get a new location listner running */
-	public void addCallback(CallbackContext callbackContext, int timeout, boolean useLastLocation) {
+	public void addCallback(CallbackContext callbackContext, int timeout) {
 		if (mTimer == null) {
 			mTimer = new Timer();
 		}
 
-		/* do not understand, if the callback is already there??? */
 		mTimer.schedule(new LocationTimeoutTask(callbackContext, this), timeout);
 		mCallbacks.add(callbackContext);
 
