@@ -117,7 +117,7 @@ public class CordovaLocationListener implements LocationListener {
 		cancelTimer();
 
 		for (CallbackContext callbackContext : mCallbacks) {
-			mOwner.fail(code, message, callbackContext, false);
+			mOwner.fail(code, message, callbackContext, true);
 		}
 
 		if (watches.size() == 0) {
@@ -135,7 +135,7 @@ public class CordovaLocationListener implements LocationListener {
 		cancelTimer();
 
 		for (CallbackContext callbackContext : mCallbacks) {
-			mOwner.win(loc, callbackContext, false);
+			mOwner.win(loc, callbackContext, true);
 		}
 
 		if (watches.size() == 0) {

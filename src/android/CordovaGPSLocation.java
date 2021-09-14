@@ -47,7 +47,6 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 	private CordovaLocationListener mListener;
 	private LocationManager mLocationManager;
-	//private LocationListener mSimpleListener;
 	CallbackContext _context;
 
 	String [] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION };
@@ -225,7 +224,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 		/* start listening */
 		getCurrentLocation(callbackContext, Integer.MAX_VALUE);	
-		/* removed network, because we want to rely on GPS only! */
+
 		Location last = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		// Check if we can use lastKnownLocation to get a quick reading and use
 		// less battery
@@ -291,11 +290,13 @@ public class CordovaGPSLocation extends CordovaPlugin {
 	 * We override this so that we can access the permissions variable, which no longer exists in
 	 * the parent class, since we can't initialize it reliably in the constructor!
 	 */
+	/*
 	@Override
 	public void requestPermissions(int requestCode)
 	{
 	    PermissionHelper.requestPermissions(this, requestCode, permissions);
 	}
+	*/
 
 
 }
