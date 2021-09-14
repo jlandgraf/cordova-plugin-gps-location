@@ -54,7 +54,7 @@ public class CordovaLocationListener implements LocationListener {
 	@Override
 	public void onLocationChanged(Location location) {
 		Log.d(TAG, "The location has been updated!");
-		fail(-23,'bubbling location');
+		fail(-23,"bubbling location");
 		win(location);
 	}
 
