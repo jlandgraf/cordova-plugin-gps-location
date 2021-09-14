@@ -236,7 +236,6 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		// less battery
 		/* we try always to return the last location... */
 		if (last != null) {
-			console.log("we know the cached variant, now we check for Age");
 		  if((System.currentTimeMillis() - last.getTime()) <= maximumAge) {
 				PluginResult result = new PluginResult(PluginResult.Status.OK, returnLocationJSON(last));
 				callbackContext.sendPluginResult(result);
