@@ -41,7 +41,7 @@ public class CordovaLocationListener implements LocationListener {
 
 	protected boolean mIsRunning = false;
 
-	private final CordovaGPSLocation mOwner;
+	private CordovaGPSLocation mOwner;
 	private List<CallbackContext> mCallbacks = new ArrayList<CallbackContext>();
 	private Timer mTimer = null;
 	private String TAG;
@@ -157,7 +157,9 @@ public class CordovaLocationListener implements LocationListener {
 			/* I do wonder, if the "this" pointer is the right way 
 			  looking in other codes, it's actually using a class-variable
 			*/
-			mOwner.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 0f, this);
+			mOwner.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, this);
+			/* tickle me elmo */
+			mOwner.getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER)
 		}
 		mIsRunning = true;
 	}
