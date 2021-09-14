@@ -154,6 +154,9 @@ public class CordovaLocationListener implements LocationListener {
 	private void start() {
 		/* this is called, checked with an explicit fail, no error is thrown */
 		if(!mIsRunning) {
+			/* I do wonder, if the "this" pointer is the right way 
+			  looking in other codes, it's actually using a class-variable
+			*/
 			mOwner.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 0f, this);
 		}
 		mIsRunning = true;
