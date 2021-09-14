@@ -32,7 +32,7 @@ function parseParameters(options) {
 	var opt = {
 		maximumAge: 0,
 		timeout: Infinity,
-		useLastLocation : false;
+		useLastLocation : false,
 	};
 
 	if (options) {
