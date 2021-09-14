@@ -154,10 +154,10 @@ public class CordovaLocationListener implements LocationListener {
 
 	private void start() {
 		/* for some reason, this one is not giving the updates */
-		try {
+		if(mOwner.getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			mOwner.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0f, this);
-		} catch (Exception e) {
-			fail(-23, "failed to start requesting"+ e.toString()); 
+		} else {
+			fail(-23, "failed to start requesting"); 
 		}
 	}
 
