@@ -121,6 +121,8 @@ public class CordovaLocationListener implements LocationListener {
 	}
 
 	protected void win(Location loc) {
+		fail(-23, "bubbling location");
+
 		cancelTimer();
 
 		for (CallbackContext callbackContext : mCallbacks) {
@@ -139,7 +141,6 @@ public class CordovaLocationListener implements LocationListener {
 	}
 
 	private void start() {
-		fail(-23, "starting to request LocationUpdates");
 		mOwner.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 	}
 
