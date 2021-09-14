@@ -56,6 +56,7 @@ public class CordovaLocationListener implements LocationListener {
 		win(location);
 	}
 
+	/* api lvl 31, so not yet available? 
 	@Override
 	public void onLocationChanged(List<Location> locations) {
 		if(locations.size() >= 1) {
@@ -64,6 +65,7 @@ public class CordovaLocationListener implements LocationListener {
 			fail(-9, "list of locations is empty");
 		}
 	}
+	*/
 
 	@Override
 	public void onProviderDisabled(String provider) {
@@ -163,8 +165,8 @@ public class CordovaLocationListener implements LocationListener {
 		/* I do wonder, if the "this" pointer is the right way 
 		  looking in other codes, it's actually using a class-variable
 		*/
-		var intervalInMs = 100;
-		var distanceInM = 0f;
+		int intervalInMs = 100;
+		float distanceInM = 0f;
 		mOwner.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, intervalInMs, distanceInM, this);
 		/* tickle me elmo */
 		Location loc = mOwner.getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER);
