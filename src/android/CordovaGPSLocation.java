@@ -76,6 +76,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			final CallbackContext callbackContext) {
 
 		if (action == null || !action.matches("getLocation|addWatch|clearWatch|getPermission")) {
+			fail(99, "unknown action", callbackContext, false);
 			return false;
 		}
 
@@ -103,8 +104,9 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			return true;
 		}
 
-		if (isGPSdisabled() && isNetworkdisabled()) {
-				fail(CordovaLocationListener.POSITION_UNAVAILABLE, "GPS is disabled on this device (and network).", callbackContext, false);
+		/* only GPS check */
+		if (isGPSdisabled()) {
+				fail(CordovaLocationListener.POSITION_UNAVAILABLE, "GPS is disabled on this device.", callbackContext, false);
 				return true;
 		}
 
@@ -204,7 +206,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 		return !gps_enabled;
 	}
-
+/*
 	private boolean isNetworkdisabled() {
 		boolean network_enabled;
 		try {
@@ -216,7 +218,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 		return !network_enabled;
 	}
-
+*/
 
 
 	private void getLastLocation(JSONArray args, CallbackContext callbackContext) {
@@ -231,8 +233,8 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		Location last;
 		if(!isGPSdisabled()) {
 				last = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		} else if (!isNetworkdisabled()) {
-				last = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		//} else if (!isNetworkdisabled()) {
+		//		last = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		} else {
 			last = null;
 		}
@@ -240,9 +242,12 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		// less battery
 		/* we try always to return the last location... */
 		if (last != null) {
-		//if (last != null && (System.currentTimeMillis() - last.getTime()) <= maximumAge) {
-			PluginResult result = new PluginResult(PluginResult.Status.OK, returnLocationJSON(last));
-			callbackContext.sendPluginResult(result);
+		  if((System.currentTimeMillis() - last.getTime()) <= maximumAge) {
+				PluginResult result = new PluginResult(PluginResult.Status.OK, returnLocationJSON(last));
+				callbackContext.sendPluginResult(result);
+			} else {
+				getCurrentLocation(callbackContext, Integer.MAX_VALUE);	
+			}
 		} else {
 			getCurrentLocation(callbackContext, Integer.MAX_VALUE);
 		}
