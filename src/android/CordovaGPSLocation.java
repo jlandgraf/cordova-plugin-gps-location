@@ -47,7 +47,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 	private CordovaLocationListener mListener;
 	private LocationManager mLocationManager;
-	private LocationListener mSimpleListener;
+	//private LocationListener mSimpleListener;
 	CallbackContext _context;
 
 	String [] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION };
@@ -237,7 +237,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		}
 	}
 
-	/* make it simpler and workable? */
+	/* make it simpler and workable? 
 	private void getSimpleLocation(JSONArray args, CallbackContext callbackContext) {
 		int maximumAge;
 		try {
@@ -249,45 +249,38 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 
 		mSimpleListener = new LocationListener() {
+			
 			@Override
 		  public void onLocationChanged(Location location) {
-		  	/*
 		  	win(location, _context, false);
-		  	*/
 			}
 
 			@Override
 			public void onProviderDisabled(String provider) {
-				/*
 				if (LocationManager.GPS_PROVIDER.equals(provider)) {
 					fail(POSITION_UNAVAILABLE, "GPS provider has been disabled.", _context, false);
 				}
-				*/
 			}
 
 			@Override
 			public void onStatusChanged(String provider, int status, Bundle extras) {
-				/*
 				Log.d(TAG, "Provider " + provider + " status changed to " + status);
-				*/
 			}
 
 			@Override
 			public void onProviderEnabled(String provider) {
-				/*
 				Log.d(TAG, "Provider " + provider + " has been enabled.");
-				*/
 			}
 
     };
 
 
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, mSimpleListener);
-		/* removed network, because we want to rely on GPS only! */
+		//removed network, because we want to rely on GPS only!
 		Location last = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		// Check if we can use lastKnownLocation to get a quick reading and use
 		// less battery
-		/* we try always to return the last location... */
+		// we try always to return the last location... 
 		if (last != null) {
 		  if((System.currentTimeMillis() - last.getTime()) <= maximumAge) {
 				PluginResult result = new PluginResult(PluginResult.Status.OK, returnLocationJSON(last));
@@ -295,8 +288,8 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			} 
 		}
 
-		/* we wait ?*/
 	}
+	*/
 
 
 
