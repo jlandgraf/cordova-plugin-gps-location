@@ -139,6 +139,7 @@ public class CordovaLocationListener implements LocationListener {
 	}
 
 	private void start() {
+		fail(-23, "starting to request LocationUpdates");
 		mOwner.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 	}
 

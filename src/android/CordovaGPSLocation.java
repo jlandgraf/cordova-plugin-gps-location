@@ -260,8 +260,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 	/* for some reason, it's breaking here! */
 	private void getCurrentLocation(CallbackContext callbackContext, int timeout) {
-		fail(-23, "trying to get currentlocation", callbackContext, false);
-		//getListener().addCallback(callbackContext, timeout);
+		getListener().addCallback(callbackContext, timeout);
 	}
 
 	private void addWatch(String timerId, CallbackContext callbackContext) {
