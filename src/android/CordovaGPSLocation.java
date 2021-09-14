@@ -105,7 +105,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 
 		if (isGPSdisabled() && isNetworkdisabled()) {
 				fail(CordovaLocationListener.POSITION_UNAVAILABLE, "GPS is disabled on this device (and network).", callbackContext, false);
-			return true;
+				return true;
 		}
 
 		if (action.equals("getLocation")) {
@@ -114,7 +114,7 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			addWatch(id, callbackContext);
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -239,8 +239,8 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		// Check if we can use lastKnownLocation to get a quick reading and use
 		// less battery
 		/* we try always to return the last location... */
-		//if (last != null) {
-		if (last != null && (System.currentTimeMillis() - last.getTime()) <= maximumAge) {
+		if (last != null) {
+		//if (last != null && (System.currentTimeMillis() - last.getTime()) <= maximumAge) {
 			PluginResult result = new PluginResult(PluginResult.Status.OK, returnLocationJSON(last));
 			callbackContext.sendPluginResult(result);
 		} else {
