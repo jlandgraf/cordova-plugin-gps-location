@@ -31,6 +31,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 
 public class CordovaLocationListener implements LocationListener {
@@ -164,7 +165,7 @@ public class CordovaLocationListener implements LocationListener {
 
 		int intervalInMs = 100;
 		float distanceInM = 0f;
-		mOwner.getLocationManager().requestLocationUpdates(provider, intervalInMs, distanceInM, this);
+		mOwner.getLocationManager().requestLocationUpdates(provider, intervalInMs, distanceInM, this, Looper.getMainLooper());
 	}
 
 	private void stop() {
