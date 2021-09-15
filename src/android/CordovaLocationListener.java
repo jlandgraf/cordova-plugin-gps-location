@@ -97,8 +97,8 @@ public class CordovaLocationListener implements LocationListener {
 		}
 
 		mTimer.schedule(new LocationTimeoutTask(callbackContext, this), timeout);
-		/* why do we keep a list of callbacks? */
 		mCallbacks.add(callbackContext);
+
 		if (size() == 1) {
 			start();
 		}
@@ -153,13 +153,17 @@ public class CordovaLocationListener implements LocationListener {
 		}
 	}
 
+	/* start requesting for updates */
 	private void start() {
 		Criteria criteria = new Criteria();
     //criteria.setAccuracy(Criteria.ACCURACY_HIGH);
     //criteria.setPowerRequirement(Criteria.POWER_LOW);
     //criteria.setAltitudeRequired(false);
     //criteria.setBearingRequired(false);
-    String provider = mOwner.getLocationManager().getBestProvider(criteria, true);
+
+    //if true then only enabled providers are included
+    boolean enabledOnly = false;
+    String provider = mOwner.getLocationManager().getBestProvider(criteria, enabledOnly);
     /* this should fire up the locationUpdate */
 		mOwner.getLocationManager().requestLocationUpdates(provider, MIN_UPDATE_INTERVAL_IN_MS, MIN_UPDATE_DISTANCE_IN_M, this, Looper.getMainLooper());
 	}
