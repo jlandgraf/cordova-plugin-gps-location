@@ -57,6 +57,7 @@ public class CordovaLocationListener implements LocationListener {
 	@Override
 	public void onLocationChanged(Location location) {
 		/* this is for some reason never called */
+		/* IRIS - this is not called on my device, but apparantly it is called on the famoco-device */
 		Log.d(TAG, "The location has been updated!");
 		win(location);
 	}
@@ -165,6 +166,7 @@ public class CordovaLocationListener implements LocationListener {
     boolean enabledOnly = false;
     String provider = mOwner.getLocationManager().getBestProvider(criteria, enabledOnly);
     /* this should fire up the locationUpdate */
+    /* IRIS - this is being called, so we should get updates */
 		mOwner.getLocationManager().requestLocationUpdates(provider, MIN_UPDATE_INTERVAL_IN_MS, MIN_UPDATE_DISTANCE_IN_M, this, Looper.getMainLooper());
 	}
 
