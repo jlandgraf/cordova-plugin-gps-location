@@ -34,9 +34,12 @@ import android.content.pm.PackageManager;
 import android.Manifest;
 import android.os.Build;
 import android.content.Context;
+
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+
 import android.util.Log;
 
 /*
@@ -195,6 +198,43 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		callbackContext.sendPluginResult(result);
 	}
 
+
+	public void winSpecial(Location loc) {
+		PluginResult result = new PluginResult(PluginResult.Status.OK, this.returnLocationJSON(loc));
+		//result.setKeepCallback(keepCallback);
+		_context.sendPluginResult(result);
+	}
+
+	/**
+	 * Location failed. Send error back to JavaScript.
+	 * @param code The error code
+	 * @param msg  The error message
+	 * @throws JSONException
+	 */
+	public void failSpecial(int code, String msg) {
+		JSONObject obj = new JSONObject();
+		String backup = null;
+		try {
+			obj.put("code", code);
+			obj.put("message", msg);
+		} catch (JSONException e) {
+			obj = null;
+			backup = "{'code':" + code + ",'message':'"
+					+ msg.replaceAll("'", "\'") + "'}";
+		}
+		PluginResult result;
+		if (obj != null) {
+			result = new PluginResult(PluginResult.Status.ERROR, obj);
+		} else {
+			result = new PluginResult(PluginResult.Status.ERROR, backup);
+		}
+
+		//result.setKeepCallback(keepCallback);
+		_context.sendPluginResult(result);
+	}
+
+
+
 	private boolean isGPSdisabled() {
 		boolean gps_enabled;
 		try {
@@ -219,8 +259,17 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			useLastLocation = false;
 		}
 
-		Location last = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		Criteria criteria = new Criteria();
+    //criteria.setAccuracy(Criteria.ACCURACY_HIGH);
+    //criteria.setPowerRequirement(Criteria.POWER_LOW);
+    //criteria.setAltitudeRequired(false);
+    //criteria.setBearingRequired(false);
 
+    //if true then only enabled providers are included
+    //LocationManager.GPS_PROVIDER
+    boolean enabledOnly = false;
+    String provider = mLocationManager.getBestProvider(criteria, enabledOnly);
+		Location last = mLocationManager.getLastKnownLocation(provider);
 
 		// Check if we can use lastKnownLocation to get a quick reading and use
 		// less battery
