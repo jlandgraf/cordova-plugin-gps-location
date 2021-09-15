@@ -39,8 +39,8 @@ public class CordovaLocationListener implements LocationListener {
 	public static int POSITION_UNAVAILABLE = 2;
 	public static int TIMEOUT = 3;
 
-	private static final long MIN_UPDATE_INTERVAL_IN_MS = 10 * 1000;
-  private static final float MIN_UPDATE_DISTANCE_IN_M = 10;
+	private static final long MIN_UPDATE_INTERVAL_IN_MS = 1 * 1000;
+  private static final float MIN_UPDATE_DISTANCE_IN_M = 0;
 
 	public HashMap<String, CallbackContext> watches = new HashMap<String, CallbackContext>();
 
