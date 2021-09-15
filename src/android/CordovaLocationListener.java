@@ -73,6 +73,21 @@ public class CordovaLocationListener implements LocationListener {
 		Log.d(TAG, "Provider " + provider + " has been enabled.");
 	}
 
+	/* added to make sure we keep going? */
+	@Override
+	protected void onResume() {
+  	super.onResume();
+		if (size() == 1) {
+			start();
+		}
+	}
+
+	@Override
+	protected void onPause() {
+  	super.onPause();
+    stop();
+	}
+
 	public int size() {
 		return watches.size() + mCallbacks.size();
 	}
@@ -92,8 +107,8 @@ public class CordovaLocationListener implements LocationListener {
 		}
 
 		mTimer.schedule(new LocationTimeoutTask(callbackContext, this), timeout);
+		/* why do we keep a list of callbacks? */
 		mCallbacks.add(callbackContext);
-
 		if (size() == 1) {
 			start();
 		}
