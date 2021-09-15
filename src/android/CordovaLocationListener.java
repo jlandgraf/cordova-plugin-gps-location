@@ -73,21 +73,6 @@ public class CordovaLocationListener implements LocationListener {
 		Log.d(TAG, "Provider " + provider + " has been enabled.");
 	}
 
-	/* added to make sure we keep going? */
-	@Override
-	protected void onResume() {
-  	super.onResume();
-		if (size() == 1) {
-			start();
-		}
-	}
-
-	@Override
-	protected void onPause() {
-  	super.onPause();
-    stop();
-	}
-
 	public int size() {
 		return watches.size() + mCallbacks.size();
 	}
@@ -168,9 +153,17 @@ public class CordovaLocationListener implements LocationListener {
 		/* I do wonder, if the "this" pointer is the right way 
 		  looking in other codes, it's actually using a class-variable
 		*/
+
+		Criteria criteria = new Criteria();
+    criteria.setAccuracy(Criteria.ACCURACY_HIGH);
+    //criteria.setPowerRequirement(Criteria.POWER_LOW);
+    criteria.setAltitudeRequired(false);
+    criteria.setBearingRequired(false);
+    provider = mOwner.getLocationManager().getBestProvider(criteria, true);
+
 		int intervalInMs = 100;
 		float distanceInM = 0f;
-		mOwner.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, intervalInMs, distanceInM, this);
+		mOwner.getLocationManager().requestLocationUpdates(provider, intervalInMs, distanceInM, this);
 	}
 
 	private void stop() {
