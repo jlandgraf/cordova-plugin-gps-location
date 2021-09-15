@@ -121,7 +121,7 @@ public class CordovaLocationListener implements LocationListener {
 		cancelTimer();
 
 		for (CallbackContext callbackContext : mCallbacks) {
-			mOwner.fail(code, message, callbackContext, true);
+			mOwner.fail(code, message, callbackContext, false);
 		}
 
 		if (watches.size() == 0) {
@@ -139,7 +139,7 @@ public class CordovaLocationListener implements LocationListener {
 		cancelTimer();
 
 		for (CallbackContext callbackContext : mCallbacks) {
-			mOwner.win(loc, callbackContext, true);
+			mOwner.win(loc, callbackContext, false);
 		}
 
 		if (watches.size() == 0) {
@@ -154,18 +154,13 @@ public class CordovaLocationListener implements LocationListener {
 	}
 
 	private void start() {
-		/* this is called, checked with an explicit fail, no error is thrown */
-		/* I do wonder, if the "this" pointer is the right way 
-		  looking in other codes, it's actually using a class-variable
-		*/
-
 		Criteria criteria = new Criteria();
-    criteria.setAccuracy(Criteria.ACCURACY_HIGH);
+    //criteria.setAccuracy(Criteria.ACCURACY_HIGH);
     //criteria.setPowerRequirement(Criteria.POWER_LOW);
-    criteria.setAltitudeRequired(false);
-    criteria.setBearingRequired(false);
+    //criteria.setAltitudeRequired(false);
+    //criteria.setBearingRequired(false);
     String provider = mOwner.getLocationManager().getBestProvider(criteria, true);
-
+    /* this should fire up the locationUpdate */
 		mOwner.getLocationManager().requestLocationUpdates(provider, MIN_UPDATE_INTERVAL_IN_MS, MIN_UPDATE_DISTANCE_IN_M, this, Looper.getMainLooper());
 	}
 
