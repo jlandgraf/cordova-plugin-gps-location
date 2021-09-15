@@ -39,6 +39,9 @@ public class CordovaLocationListener implements LocationListener {
 	public static int POSITION_UNAVAILABLE = 2;
 	public static int TIMEOUT = 3;
 
+	private static final long MIN_UPDATE_INTERVAL_IN_MS = 10 * 1000;
+  private static final float MIN_UPDATE_DISTANCE_IN_M = 10;
+
 	public HashMap<String, CallbackContext> watches = new HashMap<String, CallbackContext>();
 
 	private CordovaGPSLocation mOwner;
@@ -163,9 +166,7 @@ public class CordovaLocationListener implements LocationListener {
     criteria.setBearingRequired(false);
     String provider = mOwner.getLocationManager().getBestProvider(criteria, true);
 
-		int intervalInMs = 100;
-		float distanceInM = 0f;
-		mOwner.getLocationManager().requestLocationUpdates(provider, intervalInMs, distanceInM, this, Looper.getMainLooper());
+		mOwner.getLocationManager().requestLocationUpdates(provider, MIN_UPDATE_INTERVAL_IN_MS, MIN_UPDATE_DISTANCE_IN_M, this, Looper.getMainLooper());
 	}
 
 	private void stop() {

@@ -219,10 +219,9 @@ public class CordovaGPSLocation extends CordovaPlugin {
 			useLastLocation = false;
 		}
 
-		/* start listening */
-		startListening(callbackContext, Integer.MAX_VALUE);	
-
 		Location last = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+
 		// Check if we can use lastKnownLocation to get a quick reading and use
 		// less battery
 		if (last != null) {
@@ -231,9 +230,13 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		  if(useLastLocation || ((System.currentTimeMillis() - last.getTime()) <= maximumAge)) {
 				PluginResult result = new PluginResult(PluginResult.Status.OK, returnLocationJSON(last));
 				callbackContext.sendPluginResult(result);
+			} else {
+				startListening(callbackContext, Integer.MAX_VALUE);	
 			}
+		} else {
+				/* start listening */
+				startListening(callbackContext, Integer.MAX_VALUE);	
 		}
-		/* we wait */
 	}
 
 
