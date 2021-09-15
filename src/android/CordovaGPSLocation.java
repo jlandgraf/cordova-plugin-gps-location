@@ -198,43 +198,6 @@ public class CordovaGPSLocation extends CordovaPlugin {
 		callbackContext.sendPluginResult(result);
 	}
 
-
-	public void winSpecial(Location loc) {
-		PluginResult result = new PluginResult(PluginResult.Status.OK, this.returnLocationJSON(loc));
-		//result.setKeepCallback(keepCallback);
-		_context.sendPluginResult(result);
-	}
-
-	/**
-	 * Location failed. Send error back to JavaScript.
-	 * @param code The error code
-	 * @param msg  The error message
-	 * @throws JSONException
-	 */
-	public void failSpecial(int code, String msg) {
-		JSONObject obj = new JSONObject();
-		String backup = null;
-		try {
-			obj.put("code", code);
-			obj.put("message", msg);
-		} catch (JSONException e) {
-			obj = null;
-			backup = "{'code':" + code + ",'message':'"
-					+ msg.replaceAll("'", "\'") + "'}";
-		}
-		PluginResult result;
-		if (obj != null) {
-			result = new PluginResult(PluginResult.Status.ERROR, obj);
-		} else {
-			result = new PluginResult(PluginResult.Status.ERROR, backup);
-		}
-
-		//result.setKeepCallback(keepCallback);
-		_context.sendPluginResult(result);
-	}
-
-
-
 	private boolean isGPSdisabled() {
 		boolean gps_enabled;
 		try {
