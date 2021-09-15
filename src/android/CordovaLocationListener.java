@@ -160,7 +160,7 @@ public class CordovaLocationListener implements LocationListener {
     //criteria.setPowerRequirement(Criteria.POWER_LOW);
     criteria.setAltitudeRequired(false);
     criteria.setBearingRequired(false);
-    provider = mOwner.getLocationManager().getBestProvider(criteria, true);
+    String provider = mOwner.getLocationManager().getBestProvider(criteria, true);
 
 		int intervalInMs = 100;
 		float distanceInM = 0f;
